@@ -4,74 +4,36 @@ on:
     branches:
       - master
 jobs:
-  install-project:
+  build-android:
     runs-on: ubuntu-latest
     steps:
-      - name: Setup Node.js
+      # Set up NodeJS version 20
+      - name: Setup NodeJS version 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
-      - uses: actions/checkout@v4
-      - name: Install npm dependencies
+      # Checkout source code
+      - name: Checkout source code
+        uses: actions/checkout@v4
+      # Install dependencies
+      - name: Install dependencies
         run: |
           npm install
-      - name: Upload source code and dependencies
-        uses: actions/upload-artifact@v4
-        with:
-          name: source-and-dependencies
-          path: |
-            ./
-            node_modules/
-  lint-check:
-    needs: install-project
-    runs-on: ubuntu-latest
-    steps:
-      # - name: Checkout code
-      #   uses: actions/checkout@v4
-      # - name: Install npm dependencies
-      #   run: |
-      #     npm install
-      - name: Download source code and dependencies
-        uses: actions/download-artifact@v4
-        with:
-          name: source-and-dependencies
-      - name: Check Prettier formatting
-        run: |
-          npm run lint:fix && npm run format:check
-  unit-tests:
-    needs: lint-check
-    runs-on: ubuntu-latest
-    steps:
-      # - name: Checkout code
-      #   uses: actions/checkout@v4
-      # - name: Install npm dependencies
-      #   run: |
-      #     npm install
-      - name: Download source code and dependencies
-        uses: actions/download-artifact@v4
-        with:
-          name: source-and-dependencies
-      - name: Running unit tests
-        run: |
-          npm run test
-  build-android:
-    needs: unit-tests
-    runs-on: ubuntu-latest
-    steps:
-      # - name: Checkout code
-      #   uses: actions/checkout@v4
-      # - name: Install npm dependencies
-      #   run: |
-      #     npm install
-      - name: Download source code and dependencies
-        uses: actions/download-artifact@v4
-        with:
-          name: source-and-dependencies
-      - name: Set up Java
+      # Set un Java environment
+      - name: Set up Java environment
         uses: actions/setup-java@v2
         with:
           java-version: 17
           distribution: 'temurin'
+      # Lint check
+      - name: Lint check
+        run: |
+          npm run lint:fix && npm run format:check
+      # Run unit test
+      - name: Running unit tests
+        run: |
+          npm run test
+      # Build Android apk for release
       - uses: actions/checkout@v4
       - name: Build Android Release
         run: |
