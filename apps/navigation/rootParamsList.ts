@@ -4,7 +4,6 @@ import type {
 
 export type RootStackParamsList = {
     newTask?: object;
-    splash?: object;
     todoList?: object;
 };
 
@@ -13,13 +12,6 @@ export type NewTaskScreenProps =
     NativeStackScreenProps<
         RootStackParamsList,
         'newTask'
-    >;
-
-
-export type SplashScreenProps =
-    NativeStackScreenProps<
-        RootStackParamsList,
-        'splash'
     >;
 
 export type TodoListScreenProps =

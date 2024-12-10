@@ -20,7 +20,7 @@ const goBack = () => {
 };
 
 const RootNavigationContext = createContext<RootStackParamsList>({
-    splash: {},
+    newTask: {},
     todoList: {},
 });
 
