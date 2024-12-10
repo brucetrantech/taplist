@@ -4,32 +4,37 @@ on:
     branches:
       - master
 jobs:
-  prettier-check:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-
-      - name: Check Prettier formatting
-        run: npm run format:check
-  install-and-test:
+  install-project:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Install npm dependencies
         run: |
           npm install
+  lint-check:
+    needs: install-project
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Check Prettier formatting
+        run: |
+          npm run lint:fix && npm run format:check
+  unit-tests:
+    needs: lint-check
+    runs-on: ubuntu-latest
+    steps:
       - name: Running unit tests
         run: |
           npm run test
   build-android:
-    needs: install-and-test
+    needs: unit-tests
     runs-on: ubuntu-latest
     steps:
       - name: Set up Java
