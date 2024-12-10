@@ -35,6 +35,9 @@ jobs:
           npm run test
       # Build Android apk for release
       - uses: actions/checkout@v4
+      - name: Clean gradle project
+        run: |
+          cd android && ./gradlew clean
       - name: Build Android Release
         run: |
           cd android && ./gradlew assembleRelease
