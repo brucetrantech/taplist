@@ -1,0 +1,8 @@
+# Ignore all files except specific extensions
+*.css
+*.json
+*.md
+node_modules/
+**/build/
+ios/
+android/

@@ -4,6 +4,19 @@ on:
     branches:
       - master
 jobs:
+  prettier-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Check Prettier formatting
+        run: npm run format:check
   install-and-test:
     runs-on: ubuntu-latest
     steps:
@@ -11,6 +24,10 @@ jobs:
       - name: Install npm dependencies
         run: |
           npm install
+
+      - name: Running unit tests
+        run: |
+          npm run test
   build-android:
     needs: install-and-test
     runs-on: ubuntu-latest
@@ -19,11 +36,8 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: 17
-          distribution: "temurin"
+          distribution: 'temurin'
       - uses: actions/checkout@v4
-      - name: Install npm dependencies
-        run: |
-          npm install
       - name: Build Android Release
         run: |
           cd android && ./gradlew assembleRelease

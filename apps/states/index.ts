@@ -1,29 +1,29 @@
-import { TasksSliceType } from '@/modules/tasks/models';
-import tasksReducer, { taskInitialState } from '@/modules/tasks/reducer';
-import { configureStore } from '@reduxjs/toolkit';
+import {TasksSliceType} from '@/modules/tasks/models';
+import tasksReducer, {taskInitialState} from '@/modules/tasks/reducer';
+import {configureStore} from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 
 export type RootState = {
-    tasks: TasksSliceType;
+  tasks: TasksSliceType;
 };
 
 export const preloadedState: RootState = {
-    tasks: taskInitialState,
+  tasks: taskInitialState,
 };
 
 const reducers = {
-    tasks: tasksReducer,
+  tasks: tasksReducer,
 };
 
 const state = configureStore({
-    reducer: reducers,
-    preloadedState: preloadedState,
-    middleware: (getDefaultMiddleware: () => any) => {
-        if (__DEV__) {
-            return getDefaultMiddleware().concat(logger);
-        }
-        return getDefaultMiddleware();
-    },
+  reducer: reducers,
+  preloadedState: preloadedState,
+  middleware: (getDefaultMiddleware: () => any) => {
+    if (__DEV__) {
+      return getDefaultMiddleware().concat(logger);
+    }
+    return getDefaultMiddleware();
+  },
 });
 
 export type AppDispatch = typeof state.dispatch;

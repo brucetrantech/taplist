@@ -1,9 +1,7 @@
 import React from 'react';
-import {
-  StyleSheet,
-} from 'react-native';
+import {StyleSheet} from 'react-native';
 import themes from './commons/themes';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import MainScreen from '@/screens';
 import StateProvider from '@/states/StateProvider';
 
